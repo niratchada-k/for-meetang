@@ -1,0 +1,327 @@
+/* =========================================================
+   สีหลักของเว็บ (แก้สีทั้งเว็บได้จากตรงนี้)
+   ========================================================= */
+:root{
+  --ink:#2D2B4E;        /* สีหัวข้อ */
+  --text:#6E6A8F;       /* สีตัวหนังสือ */
+  --violet:#6C5BA8;     /* สีป้ายเล็ก */
+  --pink:#FFE1EC;
+  --blue:#E0ECFF;
+  --mint:#DAF4E8;
+  --lilac:#EBDDFF;
+  --base:#FBF9FF;
+  --line:#EEE8FB;
+  --shadow:0 18px 44px rgba(150,130,210,.16);
+}
+ 
+/* ---------- พื้นฐาน + เลื่อนสมูด ---------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:'IBM Plex Sans Thai',sans-serif;
+  color:var(--text);
+  background:var(--base);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Prompt',sans-serif;color:var(--ink);margin:0}
+a{color:var(--violet)}
+img,video{display:block;max-width:100%}
+button{font:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+ 
+/* ---------- พื้นหลังพาสเทลผืนเดียวทั้งเว็บ ----------
+   ติดอยู่กับหน้าจอ เลื่อนแล้วพื้นหลังไม่ขาดเป็นท่อน ๆ */
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(60% 50% at 0% 0%,var(--pink) 0,rgba(255,225,236,0) 70%),
+    radial-gradient(55% 50% at 100% 0%,var(--blue) 0,rgba(224,236,255,0) 70%),
+    radial-gradient(55% 55% at 0% 100%,var(--mint) 0,rgba(218,244,232,0) 70%),
+    radial-gradient(55% 55% at 100% 100%,var(--lilac) 0,rgba(235,221,255,0) 70%),
+    var(--base);
+}
+.wash{position:relative}
+main,footer{position:relative;z-index:1}
+ 
+/* ---------- ชั้นดาวลอยทั่วพื้นหลัง ---------- */
+#sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+ 
+/* ---------- การ์ดกระจก + ขอบไล่สี ---------- */
+.gb{padding:1.5px;border-radius:32px;background:linear-gradient(135deg,#D9CCFA,#FFC9DD 50%,#C6EEDC);box-shadow:var(--shadow)}
+.glass{
+  height:100%;
+  border-radius:30.5px;
+  background:rgba(255,255,255,.78);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+}
+.pill{display:inline-block;padding:8px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--violet);font-weight:500;font-size:15px}
+.title{font-weight:700;font-size:clamp(30px,5vw,52px);line-height:1.25;margin:14px 0 28px}
+ 
+/* ---------- ช่องรูป (ใส่ <img> ข้างในได้เลย) ---------- */
+.photo{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg,#FFE7F0);color:#8A6F86;font-weight:500;
+}
+.photo img,.photo video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ 
+/* ---------- ดาวลอย ---------- */
+.star{position:absolute;animation:drift 6s ease-in-out infinite}
+@keyframes drift{
+  0%,100%{transform:translate(0,0) rotate(0) scale(1);opacity:.9}
+  25%{transform:translate(6px,-12px) rotate(10deg) scale(.85);opacity:.6}
+  50%{transform:translate(0,-22px) rotate(20deg) scale(.65);opacity:.35}
+  75%{transform:translate(-6px,-10px) rotate(10deg) scale(.85);opacity:.7}
+}
+/* จุดกลม ๆ เล็ก ๆ ระหว่างดาว */
+.dot{position:absolute;border-radius:50%;animation:drift 7s ease-in-out infinite}
+ 
+/* ---------- แถบเมนูด้านบน ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(251,249,255,.72);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, box-shadow .3s;
+}
+.nav.scrolled{border-color:var(--line);box-shadow:0 6px 20px rgba(150,130,210,.10)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:68px}
+.brand{font-family:'Prompt',sans-serif;font-weight:600;font-size:20px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.menu{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.menu::-webkit-scrollbar{display:none}
+.menu a{
+  flex:0 0 auto;padding:10px 16px;border-radius:999px;
+  text-decoration:none;color:var(--text);font-weight:500;
+  transition:background .25s,color .25s;
+}
+.menu a:hover,.menu a.active{background:#fff;color:var(--violet)}
+ 
+/* ---------- ส่วนหัว ---------- */
+.hero{padding:40px 0 24px}
+.hero-box{position:relative}
+.hero-card{display:flex;flex-wrap:wrap;gap:40px;align-items:center;padding:clamp(26px,5vw,64px)}
+.hero-text{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.hero h1{font-weight:700;font-size:clamp(36px,6vw,68px);line-height:1.2}
+.hero p{margin:0;font-size:clamp(16px,2vw,20px);line-height:1.75}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px}
+.chip{padding:14px 18px;border-radius:20px;background:#fff;box-shadow:0 8px 20px rgba(150,130,210,.10)}
+.chip b{display:block;font-family:'Prompt',sans-serif;font-weight:600;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:12px 28px;
+  border:none;border-radius:999px;background:var(--ink);color:#fff;
+  font-family:'Prompt',sans-serif;font-weight:500;font-size:17px;cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(45,43,78,.22)}
+.btn:active{transform:scale(.97)}
+.counter{padding:12px 20px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:500}
+ 
+.heart-area{flex:1 1 300px;min-width:0;position:relative;display:flex;justify-content:center}
+.heart{
+  width:100%;max-width:400px;aspect-ratio:400/360;
+  clip-path:url(#heartClip);
+  -webkit-clip-path:url(#heartClip);
+  --bg:#FFEAF2;font-size:clamp(16px,2vw,20px);
+}
+.float-heart{position:absolute;top:45%;pointer-events:none;animation:rise 2.6s ease-out forwards}
+@keyframes rise{
+  0%{transform:translateY(0) scale(.6);opacity:0}
+  15%{opacity:1}
+  100%{transform:translateY(-220px) scale(1.15);opacity:0}
+}
+.flower{
+  position:absolute;right:-6px;top:-64px;width:clamp(100px,17vw,200px);
+  animation:sway 4s ease-in-out infinite;transform-origin:50% 60%;
+}
+@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.dots-line{display:block;width:100%;height:50px;margin-top:36px}
+ 
+/* ---------- ส่วนทั่วไป ---------- */
+section.block{padding:64px 0}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.lift{transition:transform .3s ease}
+.lift:hover{transform:translateY(-6px)}
+ 
+/* ของโปรด */
+.like{padding:28px;display:flex;flex-direction:column;gap:12px}
+.icon{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center}
+.like h3{font-weight:600;font-size:21px}
+.like p{margin:0;font-size:17px;line-height:1.6}
+ 
+/* การ์ดพลิก */
+.flip{
+  height:340px;border:none;padding:0;background:none;cursor:pointer;
+  perspective:1200px;-webkit-tap-highlight-color:transparent;
+}
+.flip-inner{
+  position:relative;width:100%;height:100%;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  transform-style:preserve-3d;
+}
+.flip.on .flip-inner{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;border-radius:32px;
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+}
+.front .glass{padding:14px;display:flex;flex-direction:column;gap:12px;text-align:left}
+.front .photo{flex:1;border-radius:20px}
+.front h3{font-weight:600;font-size:19px;padding:0 4px 4px}
+.back{
+  transform:rotateY(180deg);background:var(--ink);color:#F3EEFF;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:28px;text-align:center;box-shadow:var(--shadow);
+}
+.back h3{color:#fff;font-weight:600;font-size:20px}
+.back p{margin:0;line-height:1.7}
+ 
+/* คลิป */
+.clip{display:flex;flex-direction:column;gap:12px}
+.clip .photo{aspect-ratio:16/9;border-radius:24px}
+.play{
+  position:relative;z-index:1;width:68px;height:68px;border-radius:50%;
+  background:#fff;display:flex;align-items:center;justify-content:center;color:var(--violet);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+.clip h3{font-weight:600;font-size:19px}
+ 
+/* กล่องสุ่ม */
+.box{max-width:720px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
+.box .gb{align-self:stretch}
+.box .glass{padding:40px 28px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.ticket{padding:6px 16px;border-radius:999px;background:#FFF4CC;color:#7A5A12;font-weight:600}
+.memory{
+  margin:0;font-family:'Prompt',sans-serif;font-weight:500;color:var(--ink);
+  font-size:clamp(19px,3vw,26px);line-height:1.6;transition:opacity .3s,transform .3s;
+}
+.memory.swap{opacity:0;transform:translateY(8px)}
+ 
+footer{padding:48px 0 64px;text-align:center}
+footer h2{font-weight:600;font-size:clamp(22px,3.5vw,32px);margin-bottom:8px}
+footer p{margin:0}
+ 
+/* การ์ดความทรงจำ: รูปเท่ากันทุกใบ 4 คอลัมน์ */
+#cards .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){#cards .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){
+  #cards .grid{gap:12px}
+  #cards .flip{height:270px}
+  #cards .front .glass{padding:8px;gap:8px}
+  #cards .front h3{font-size:14px}
+  #cards .back{padding:16px;font-size:14px}
+}
+ 
+/* ปุ่มกลับขึ้นด้านบน */
+.to-top{
+  position:fixed;right:16px;bottom:16px;z-index:60;
+  width:52px;height:52px;border-radius:50%;border:none;
+  background:var(--ink);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(16px);pointer-events:none;
+  transition:opacity .3s,transform .3s;
+}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+ 
+/* ---------- เอฟเฟกต์ค่อย ๆ โผล่ตอนเลื่อน ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+ 
+/* ---------- มือถือ ---------- */
+@media (max-width:640px){
+  .hero{padding-top:28px}
+  .flower{top:-46px;right:-4px}
+  section.block{padding:48px 0}
+  .flip{height:300px}
+  .brand{font-size:18px}
+}
+ 
+/* =========================================================
+   มือถือแบบกะทัดรัด: ย่อทุกอย่างให้เล็กลง เรียงเป็นตารางเหมือนในคอม
+   ========================================================= */
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .nav .wrap{min-height:56px}
+  .brand{font-size:16px}
+  .menu a{padding:7px 11px;font-size:13px}
+ 
+  /* ส่วนหัว: รูปหัวใจอยู่ขวา ข้อความอยู่ซ้าย */
+  .hero{padding:24px 0 8px}
+  .hero-card{display:grid;grid-template-columns:minmax(0,1fr) 40%;column-gap:10px;row-gap:10px;align-items:start;padding:20px 16px}
+  .hero-text{display:contents}
+  .hero-text > .pill{grid-column:1 / -1;grid-row:1;justify-self:start}
+  .hero-text > h1{grid-column:1;grid-row:2}
+  .hero-text > p{grid-column:1;grid-row:3}
+  .heart-area{grid-column:2;grid-row:2 / span 2;align-self:center}
+  .chips,.actions{grid-column:1 / -1}
+  .hero h1{font-size:23px;line-height:1.3}
+  .hero p{font-size:13px;line-height:1.6}
+  .hero p br{display:none}
+  .pill{padding:5px 11px;font-size:11px}
+  .chips{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .chip{padding:8px 9px;border-radius:14px;font-size:11px;box-shadow:0 4px 12px rgba(150,130,210,.10)}
+  .chip b{font-size:12px}
+  .actions{gap:8px}
+  .btn{min-height:44px;padding:9px 18px;font-size:14px;gap:8px}
+  .counter{padding:9px 14px;font-size:13px}
+  .flower{width:78px;top:-30px;right:-6px}
+  .dots-line{height:30px;margin-top:18px}
+ 
+  /* หัวข้อแต่ละส่วน */
+  section.block{padding:32px 0}
+  .title{font-size:24px;margin:8px 0 16px}
+ 
+  /* ของโปรด: 2 คอลัมน์ */
+  #likes .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .gb{border-radius:20px}
+  .glass{border-radius:18.5px}
+  .like{padding:14px;gap:6px}
+  .icon{width:36px;height:36px;border-radius:12px}
+  .icon svg{width:18px;height:18px}
+  .like h3{font-size:14px}
+  .like p{font-size:13px}
+ 
+  /* การ์ดความทรงจำ: 3 คอลัมน์ ขนาดเล็ก */
+  #cards .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  #cards .flip{height:132px}
+  .face{border-radius:14px}
+  #cards .front .glass{padding:4px;gap:3px;border-radius:12.5px}
+  #cards .front .photo{border-radius:9px}
+  #cards .front h3{font-size:9px;padding:0 2px 2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #cards .back{padding:6px;gap:4px}
+  #cards .back svg{width:18px;height:18px}
+  #cards .back h3{font-size:10px}
+  #cards .back p{font-size:9px;line-height:1.4}
+ 
+  /* คลิป: 2 คอลัมน์ */
+  #clips .grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px}
+  .clip{gap:6px}
+  .clip .photo{border-radius:14px}
+  .play{width:40px;height:40px}
+  .play svg{width:16px;height:16px}
+  .clip h3{font-size:13px}
+ 
+  /* กล่องสุ่ม */
+  .box{gap:14px}
+  .box h2{font-size:24px !important}
+  .box .glass{padding:24px 18px;gap:10px}
+  .ticket{font-size:13px;padding:4px 12px}
+  .memory{font-size:16px}
+ 
+  footer{padding:32px 0 44px}
+  footer h2{font-size:20px}
+  footer p{font-size:13px}
+  .to-top{width:44px;height:44px;right:12px;bottom:12px}
+}
+ 
+/* คนที่ตั้งค่าลดการเคลื่อนไหวไว้ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .star,.dot,.flower{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  .flip-inner{transition:none}
+}
+ 
